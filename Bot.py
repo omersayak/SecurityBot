@@ -15,6 +15,8 @@ from pyrogram import types
 import random
 
 
+
+
 print("API bilgilerinizi girin:")
 api_id = input("API ID: ")
 api_hash = input("API Hash: ")
@@ -98,14 +100,79 @@ async def welcomebot(client, message):
 
 
 
-import random
+
 
 photo_list = [
-    "https://example.com/photo1.jpg",
-    "https://example.com/photo2.jpg",
-    "https://example.com/photo3.jpg",
-    "https://example.com/photo4.jpg",
-    "https://example.com/photo5.jpg"
+    "https://unsplash.com/photos/HZQC3rEm6JY",
+    "https://pixabay.com/tr/photos/k%c3%b6pek-yavrusu-evcil-hayvan-k%c3%b6pek-2785074/",
+    "https://pixabay.com/tr/vectors/k%c3%b6pek-hayvan-evcil-hayvan-vesika-1728494/",
+    "https://pixabay.com/tr/photos/k%c3%b6pek-yavrusu-k%c3%b6pek-evcil-hayvan-1903313/",
+    "https://pixabay.com/tr/photos/istif-hayvanlar-peri-masal%c4%b1-1651945/",
+    "https://pixabay.com/tr/photos/hayvan-k%c3%b6pek-evcil-hayvan-4118585/",
+    "https://pixabay.com/tr/photos/husky-k%c3%b6pek-evcil-hayvan-malamut-3380548/",
+    "https://pixabay.com/tr/photos/sokak-gece-ak%c5%9fam-kent-kentsel-89197/",
+    "https://pixabay.com/tr/photos/walking-man-ladder-man-people-dark-4949569/",
+    "https://pixabay.com/tr/photos/gizli-orman-karanl%c4%b1k-do%c4%9fa-a%c4%9fa%c3%a7lar-3120483/",
+    "https://pixabay.com/tr/photos/ay-dolunay-g%c3%b6ky%c3%bcz%c3%bc-gece-g%c3%b6ky%c3%bcz%c3%bc-1859616/",
+    "https://pixabay.com/tr/photos/moda-kad%c4%b1n-vesika-model-k%c4%b1z-3080644/",
+    "https://pixabay.com/tr/photos/do%c4%9fa-orman-manzara-geceleyin-3194001/",
+    "https://pixabay.com/tr/photos/tesett%c3%bcr-ba%c5%9f%c3%b6rt%c3%bcs%c3%bc-vesika-duvak-3064633/",
+    "https://pixabay.com/tr/photos/ay-dolunay-deniz-g%c3%b6ky%c3%bcz%c3%bc-2762111/",
+    "https://pixabay.com/tr/photos/k%c4%b1z-y%c3%bcz-renkli-renkler-sanatsal-2696947/",
+    "https://pixabay.com/tr/illustrations/suluboya-vesika-karakter-k%c4%b1z-kad%c4%b1n-1020509/",
+    "https://pixabay.com/tr/vectors/maymun-mandala-sanat-eseri-sanat-786858/",
+    "https://pixabay.com/tr/illustrations/tablo-%c5%9f%c3%b6valye-ya%c4%9fl%c4%b1boya-resim-ay-3995999/",
+    "https://pixabay.com/tr/photos/telefon-duvar-ka%c4%9f%c4%b1d%c4%b1-suluboya-tablo-2681039/",
+    "https://pixabay.com/tr/photos/bisiklet-%c3%a7ocuklar-duvar-yaz%c4%b1s%c4%b1-3045580/",
+    "https://pixabay.com/tr/illustrations/fantezi-i%cc%87nsanlar-mistisizm-mistik-2964231/",
+    "https://pixabay.com/tr/photos/foto%c4%9fraf-manip%c3%bclasyonu-dijital-sanat-2110496/",
+    "https://pixabay.com/tr/photos/tokyo-gece-lamborghini-street-car-4132144/",
+    "https://pixabay.com/tr/photos/kopyalar-rent-a-car-minyat%c3%bcrler-810316/",
+    "https://pixabay.com/tr/photos/street-car-oto-trafik-g%c3%bcnbat%c4%b1m%c4%b1-5183446/",
+    "https://pixabay.com/tr/photos/akdeniz-adas%c4%b1-mountan-bulut-112003/",
+    "https://pixabay.com/tr/photos/pinewood-yang%c4%b1n-yanm%c4%b1%c5%9f-%c3%a7am-3710491/",
+    "https://pixabay.com/tr/photos/peri%c5%9fan-yang%c4%b1n-i%cc%87%c3%a7mek-koy-%c3%a7al%c4%b1-3710502/",
+    "https://pixabay.com/tr/illustrations/tutulma-g%c3%bcne%c5%9f-uzay-ay-gezegen-1492818/",
+    "https://pixabay.com/tr/photos/s%c4%b1cak-hava-balonu-g%c3%b6l-balon-g%c3%b6ky%c3%bcz%c3%bc-736879/",
+    "https://pixabay.com/tr/photos/ay-evren-uzay-samanyolu-g%c3%b6kada-2048727/",
+    "https://pixabay.com/tr/photos/dolunay-gece-g%c3%b6ky%c3%bcz%c3%bc-luna-ay-1869760/",
+    "https://pixabay.com/tr/photos/a%c4%9fa%c3%a7-g%c3%bcn-bat%c4%b1m%c4%b1-bulutlar-g%c3%b6ky%c3%bcz%c3%bc-736885/",
+    "https://pixabay.com/tr/photos/bulvar-a%c4%9fa%c3%a7lar-yol-g%c3%bcne%c5%9f-%c4%b1%c5%9f%c4%b1nlar%c4%b1-815297/",
+    "https://pixabay.com/tr/illustrations/tutulma-g%c3%bcne%c5%9f-uzay-ay-gezegen-1492818/",
+    "https://pixabay.com/tr/photos/k%c4%b1z-g%c3%bczellik-peri-masallar%c4%b1-fantezi-2436545/",
+    "https://pixabay.com/tr/photos/kad%c4%b1n-at%c4%b1%c5%9f-b%c3%bcy%c3%bcl%c3%bc-hayal-kurmak-3551832/",
+    "https://pixabay.com/tr/illustrations/kad%c4%b1n-k%c4%b1z-g%c3%bczel-vesika-moda-di%c5%9fi-3219507/",
+    "https://pixabay.com/tr/photos/kad%c4%b1n-k%c4%b1z%c4%b1l-sa%c3%a7l%c4%b1-atk%c4%b1-%c3%b6rme-triko-1867093/",
+    "https://pixabay.com/tr/photos/kad%c4%b1n-k%c4%b1z-g%c3%b6z-model-atk%c4%b1-arap%c3%a7a-590490/",
+    "https://pixabay.com/tr/photos/kad%c4%b1n-y%c4%b1kama-vietnam-asya-gen%c3%a7-1822646/",
+    "https://pixabay.com/tr/photos/kad%c4%b1n-at%c4%b1%c5%9f-g%c3%bczellik-at-di%c5%9fi-k%c4%b1z-3481756/",
+    "https://pixabay.com/tr/photos/bikini-model-dudaklar-di%c5%9fi-k%c4%b1z-885382/",
+    "https://pixabay.com/tr/photos/marilyn-monroe-sanat-berabere-885229/",
+    "https://pixabay.com/tr/photos/spor-salonu-spor-a%c4%9f%c4%b1rl%c4%b1k-%c3%a7al%c4%b1%c5%9fmas%c4%b1-457072/",
+    "https://pixabay.com/tr/photos/adam-kad%c4%b1n-k%c3%b6pek-evcil-hayvan-2425121/",
+    "https://pixabay.com/tr/photos/adam-siyah-vesika-erkek-siyah-adam-2442565/",
+    "https://pixabay.com/tr/photos/adam-hindistan-hindu-vesika-613601/",
+    "https://pixabay.com/tr/photos/beste-maymun-kad%c4%b1n-kahkaha-sepya-2925179/",
+    "https://pixabay.com/tr/photos/kedi-kedi-yavrusu-evcil-hayvanlar-2934720/",
+    "https://pixabay.com/tr/photos/aslan-k%c3%bckreme-afrika-hayvan-3012515/",
+    "https://pixabay.com/tr/photos/y%c3%bcz-buru%c5%9fturma-e%c4%9flenceli-ifade-388987/",
+    "https://pixabay.com/tr/photos/k%c3%b6pek-evcil-hayvan-corgi-do%c4%9furmak-3389729/",
+    "https://pixabay.com/tr/photos/mount-cook-yeni-zelanda-7323246/",
+    "https://pixabay.com/tr/photos/tibet-%c3%a7in-da%c4%9flar-manzara-4025999/",
+    "https://pixabay.com/tr/photos/k%c3%b6pek-bal%c4%b1%c4%9f%c4%b1-bal%c4%b1k-deniz-okyanus-164899/",
+    "https://pixabay.com/tr/photos/yal%c4%b1%c3%a7apk%c4%b1n%c4%b1-ku%c5%9f-bal%c4%b1k-yakalamak-1338235/",
+    "https://pixabay.com/tr/photos/do%c4%9fa-arka-plan-do%c4%9fa-arka-plan%c4%b1-2739115/",
+    "https://pixabay.com/tr/photos/kartal-ku%c5%9f-y%c4%b1rt%c4%b1c%c4%b1-ku%c5%9f-kanatlar-1753002/",
+    "https://pixabay.com/tr/photos/%c3%a7ocuklar-kazan%c3%a7-ba%c5%9far%c4%b1-video-oyunu-593313/",
+    "https://pixabay.com/tr/photos/k%c4%b1z-y%c3%bcr%c3%bcme-oyuncak-ay%c4%b1-%c3%a7ocuk-447701/",
+    "https://pixabay.com/tr/photos/kad%c4%b1n-yaln%c4%b1zl%c4%b1k-%c3%bcz%c3%bcnt%c3%bc-duygular-1958723/",
+    "https://pixabay.com/tr/photos/adam-yaln%c4%b1zl%c4%b1k-deniz-ak%c5%9fam-siluet-2915187/",
+    "https://pixabay.com/tr/illustrations/d%c3%bc%c5%9fen-mobil-karanl%c4%b1k-gece-7372662/",
+    "https://pixabay.com/tr/photos/ayna-adam-karanl%c4%b1k-%c3%bcz%c3%bcnt%c3%bc-3864155/",
+    "https://pixabay.com/tr/photos/el-korkmak-%c3%a7aresizlik-ifade-2593743/",
+    "https://pixabay.com/tr/photos/ya%c4%9fmur-yaln%c4%b1z-%c3%a7ocuk-%c3%a7ocuk-yaln%c4%b1zl%c4%b1k-1570854/",
+    "https://pixabay.com/tr/photos/%c3%bcz%c3%bcnt%c3%bc-affetmek-%c3%bczg%c3%bcn-insanlar-699606/"
+
 ]
 
 @bot.on_message(filters.command('photo'))
