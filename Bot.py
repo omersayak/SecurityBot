@@ -10,6 +10,8 @@ import requests
 import json
 import time 
 from pyrogram.errors import PeerIdInvalid, UserAdminInvalid
+from pyrogram import errors
+
 
 
 
@@ -125,13 +127,43 @@ async def leave(client, message):
     await client.leave_chat(message.chat.id)
 
 
-#ban user forever
+# #ban user forever
+# @bot.on_message(filters.command('ban') & filters.group)
+# async def ban(client, message):
+#     await message.delete()
+#     await client.ban_chat_member(chat_id=message.chat.id, user_id=message.reply_to_message.from_user.id)
+#     await client.send_message(chat_id=message.chat.id, text=f"{message.reply_to_message.from_user.mention} Banned")
+
+
+
+
+
+
+
 @bot.on_message(filters.command('ban') & filters.group)
 async def ban(client, message):
     await message.delete()
-    await client.ban_chat_member(chat_id=message.chat.id, user_id=message.reply_to_message.from_user.id)
-    await client.send_message(chat_id=message.chat.id, text=f"{message.reply_to_message.from_user.mention} Banned")
 
+    # Check if the user trying to ban is an administrator
+    try:
+        user = await client.get_chat_member(chat_id=message.chat.id, user_id=message.reply_to_message.from_user.id)
+        if user.status == "administrator":
+            raise UserAdminInvalid
+    except UserAdminInvalid:
+        await client.send_message(chat_id=message.chat.id, text="Bir yöneticiyi banlamaya çalışıyorsunuz.")
+        return
+    except errors.FloodWait as e:
+        await client.send_message(chat_id=message.chat.id, text=f"Bir hata oluştu: {str(e)}")
+        return
+
+    # Ban the user
+    try:
+        await client.ban_chat_member(chat_id=message.chat.id, user_id=message.reply_to_message.from_user.id)
+        await client.send_message(chat_id=message.chat.id, text=f"{message.reply_to_message.from_user.mention} banlandı.")
+    except errors.FloodWait as e:
+        await client.send_message(chat_id=message.chat.id, text=f"Bir Yöneticiyi Banlayamam Dostummm!!")
+    except errors.exceptions.BadRequest as e:
+        await client.send_message(chat_id=message.chat.id, text=f"Bir Yöneticiyi Banlayamam Dostummm!!")
 
 
 
