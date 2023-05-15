@@ -9,6 +9,7 @@ import os
 import requests
 import json
 import time 
+from pyrogram.errors import PeerIdInvalid, UserAdminInvalid
 
 
 
@@ -23,7 +24,6 @@ bot = Client(
     api_hash=api_hash,
     bot_token=bot_token
 )
-
 
 START_MESSAGE = "Merhabalar Ben SİberGüvenlik Grubuna Aİt Güvenlik Botuyum."
 
@@ -151,9 +151,57 @@ async def ban(client, message):
 
 
 
+# @bot.on_message(filters.command('mute') & filters.group)
+# async def mute(client, message):
+#     await message.delete()
+#     # Parse the time duration from the command
+#     try:
+#         duration_str = re.search(r'(\d+)([dhma])', message.command[1]).groups()
+#         duration_num = int(duration_str[0])
+#         duration_unit = duration_str[1]
+
+#         if duration_unit == 'm':
+#             duration = timedelta(minutes=duration_num)
+#         elif duration_unit == 'h':
+#             duration = timedelta(hours=duration_num)
+#         elif duration_unit == 'd':
+#             duration = timedelta(days=duration_num)
+#         elif duration_unit == 'a':
+#             duration = timedelta(days=365 * duration_num)
+#     except (IndexError, AttributeError):
+#         await client.send_message(chat_id=message.chat.id, text="Lütfen bir zaman periyodu belirtin. Örneğin: `.mute 4h`")
+#         return
+
+#     # Apply the mute
+#     await client.restrict_chat_member(
+#         chat_id=message.chat.id,
+#         user_id=message.reply_to_message.from_user.id,
+#         permissions=ChatPermissions(),
+#         until_date=datetime.now() + duration
+#     )
+
+#         # Send a message to confirm the mute
+#     duration_str = re.search(r'(\d+[dhma])+', message.command[1]).group()
+#     await client.send_message(chat_id=message.chat.id, text=f"{message.reply_to_message.from_user.mention} {duration_str} boyunca mutelendi.")
+
+    
+        
+
+
+
+
+from pyrogram.errors import UserAdminInvalid
+
 @bot.on_message(filters.command('mute') & filters.group)
 async def mute(client, message):
     await message.delete()
+
+    # Check if the user trying to mute is an administrator
+    user = await client.get_chat_member(chat_id=message.chat.id, user_id=message.reply_to_message.from_user.id)
+    if user.status == "administrator":
+        await client.send_message(chat_id=message.chat.id, text="Bir yöneticiyi muteleyemem.")
+        return
+
     # Parse the time duration from the command
     try:
         duration_str = re.search(r'(\d+)([dhma])', message.command[1]).groups()
@@ -173,19 +221,26 @@ async def mute(client, message):
         return
 
     # Apply the mute
-    await client.restrict_chat_member(
-        chat_id=message.chat.id,
-        user_id=message.reply_to_message.from_user.id,
-        permissions=ChatPermissions(),
-        until_date=datetime.now() + duration
-    )
+    try:
+        await client.restrict_chat_member(
+            chat_id=message.chat.id,
+            user_id=message.reply_to_message.from_user.id,
+            permissions=ChatPermissions(),
+            until_date=datetime.now() + duration
+        )
 
         # Send a message to confirm the mute
-    duration_str = re.search(r'(\d+[dhma])+', message.command[1]).group()
-    await client.send_message(chat_id=message.chat.id, text=f"{message.reply_to_message.from_user.mention} {duration_str} boyunca mutelendi.")
+        duration_str = re.search(r'(\d+[dhma])+', message.command[1]).group()
+        await client.send_message(chat_id=message.chat.id, text=f"{message.reply_to_message.from_user.mention} {duration_str} boyunca mutelendi.")
+    except UserAdminInvalid:
+        await client.send_message(chat_id=message.chat.id, text="Bir yöneticiyi mutelemeye çalışıyorsunuz.")
 
-    
-        
+
+
+
+
+
+
 
 
 
