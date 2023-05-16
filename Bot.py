@@ -524,7 +524,89 @@ async def get_link_group(client, message):
 #     mute_count[user_id] = 0 
 #     await message.delete()  # Mesajı sil
 
-mute_count = {}
+# mute_count = {}
+
+# async def process_message(client, message):
+#     word_list = [
+#         "aq",
+#         "amk",
+#         "amq",
+#         "amcık",
+#         "yarrak",
+#         "sik",
+#         "daşşak",
+#         "amcık",
+#         "sikerim",
+#         "yavşak",
+#         "sikik",
+#         "gevşek",
+#         "orospu",
+#         "oruspu",
+#         "piç",
+#         "kavat",
+#         "gavat",
+#         "amcık ağızlı",
+#         "sevişmek",
+#         "sokuşmak"
+#     ]
+#     user_id = message.from_user.id
+#     lower_text = message.text.lower()  # Mesajdaki kelimeyi küçük harflere dönüştür
+    
+#     user = await client.get_chat_member(chat_id=message.chat.id, user_id=user_id)
+#     if lower_text in word_list:
+#         if user.status != "administrator":
+#             if user_id in mute_count:
+#                 mute_count[user_id] += 1
+#                 remaining_attempts = 5 - mute_count[user_id]
+#                 if remaining_attempts > 0:
+#                     delete_message = await message.reply_text(
+#                         f"{message.from_user.mention} {remaining_attempts} daha fazla uyarı alırsanız mute yiyeceksiniz!"
+#                     )
+#                     await asyncio.sleep(2)  # 2 saniye bekle
+#                     await message.delete()  # Mesajı sil
+#                     await delete_message.delete()  # Uyarı mesajını sil
+
+#                 if mute_count[user_id] >= 5:
+#                     await mute_user(client, message)
+#             else:
+#                 mute_count[user_id] = 1
+#                 await message.delete()  # Mesajı silmek için delete() kullanın
+#         else:
+#             await message.reply_text(
+#                 "Üzgünüm, yönetici üyeler bu tür kelimeleri kullanabilir."
+#             )
+
+# @bot.on_message(filters.text & filters.group)
+# async def delete_text(client, message):
+#     await process_message(client, message)
+
+# async def mute_user(client, message):
+#     user_id = message.from_user.id
+#     duration = timedelta(minutes=10)
+
+#     try:
+#         await client.restrict_chat_member(
+#             chat_id=message.chat.id,
+#             user_id=user_id,
+#             permissions=ChatPermissions(),
+#             until_date=datetime.now() + duration
+#         )
+
+#         await message.reply_text(
+#             f"{message.from_user.mention} 10 dakika boyunca mutelendi."
+#         )
+
+#         mute_count[user_id] = 0
+#         await message.delete()  # Mesajı silmek için delete() kullanın
+
+#     except errors.exceptions.bad_request_400.UserAdminInvalid:
+#         await message.reply_text(
+#             "Üzgünüm, bir yöneticiyi muteleyemem. Ama bu düzgün kelimleri kullanmayacağı anlamına gelmez. Lütfen düzgün kelimler kullanın."
+#         )
+
+
+
+
 
 async def process_message(client, message):
     word_list = [
@@ -551,26 +633,16 @@ async def process_message(client, message):
     ]
     user_id = message.from_user.id
     lower_text = message.text.lower()  # Mesajdaki kelimeyi küçük harflere dönüştür
-    
+
     user = await client.get_chat_member(chat_id=message.chat.id, user_id=user_id)
     if lower_text in word_list:
         if user.status != "administrator":
-            if user_id in mute_count:
-                mute_count[user_id] += 1
-                remaining_attempts = 5 - mute_count[user_id]
-                if remaining_attempts > 0:
-                    delete_message = await message.reply_text(
-                        f"{message.from_user.mention} {remaining_attempts} daha fazla uyarı alırsanız mute yiyeceksiniz!"
-                    )
-                    await asyncio.sleep(2)  # 2 saniye bekle
-                    await message.delete()  # Mesajı sil
-                    await delete_message.delete()  # Uyarı mesajını sil
-
-                if mute_count[user_id] >= 5:
-                    await mute_user(client, message)
-            else:
-                mute_count[user_id] = 1
-                await message.delete()  # Mesajı silmek için delete() kullanın
+            delete_message = await message.reply_text(
+                f"{message.from_user.mention} bu tür kelimeleri kullanmamalısınız! Uyarı!"
+            )
+            await asyncio.sleep(2)  # 2 saniye bekle
+            await message.delete()  # Mesajı sil
+            await delete_message.delete()  # Uyarı mesajını sil
         else:
             await message.reply_text(
                 "Üzgünüm, yönetici üyeler bu tür kelimeleri kullanabilir."
@@ -580,29 +652,11 @@ async def process_message(client, message):
 async def delete_text(client, message):
     await process_message(client, message)
 
-async def mute_user(client, message):
-    user_id = message.from_user.id
-    duration = timedelta(minutes=10)
 
-    try:
-        await client.restrict_chat_member(
-            chat_id=message.chat.id,
-            user_id=user_id,
-            permissions=ChatPermissions(),
-            until_date=datetime.now() + duration
-        )
 
-        await message.reply_text(
-            f"{message.from_user.mention} 10 dakika boyunca mutelendi."
-        )
 
-        mute_count[user_id] = 0
-        await message.delete()  # Mesajı silmek için delete() kullanın
 
-    except errors.exceptions.bad_request_400.UserAdminInvalid:
-        await message.reply_text(
-            "Üzgünüm, bir yöneticiyi muteleyemem. Ama bu düzgün kelimleri kullanmayacağı anlamına gelmez. Lütfen düzgün kelimler kullanın."
-        )
+
 
 
 print("I AM ALIVE")
